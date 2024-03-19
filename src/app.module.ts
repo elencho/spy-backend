@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { PacksModule } from './packs/packs.module';
 import { AuthService } from './auth/auth.service';
 import { AuthController } from './auth/auth.controller';
@@ -20,8 +18,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: true,
     }),
     AuthModule,
+    PacksModule,
   ],
-  // controllers: [AppController, AuthController],
-  // providers: [AppService, AuthService],
 })
 export class AppModule {}

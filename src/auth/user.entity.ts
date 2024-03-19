@@ -1,4 +1,5 @@
 // import { Task } from 'src/tasks/task.entity';
+import { Pack } from 'src/packs/pack.entity';
 import {
   Column,
   Entity,
@@ -15,6 +16,6 @@ export class User {
   @Column({ unique: true })
   deviceId: string;
 
-  //   @OneToMany((_type) => Task, (task) => task.user, { eager: true })
-  //   tasks: Task[];
+  @OneToMany((_type) => Pack, (task) => task.user, { eager: true })
+  packs: Pack[];
 }
