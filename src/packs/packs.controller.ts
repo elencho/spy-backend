@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Logger, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Logger,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pack } from './pack.entity';
 import { Repository } from 'typeorm';
@@ -9,6 +17,7 @@ import { PacksService } from './packs.service';
 import { CreateLocationDto } from './dto/locations.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { DeviceAuthStrategy } from 'src/auth/device-auth.strategy';
+import { Location } from './locations.entity';
 
 @Controller('packs')
 @UseGuards(AuthGuard(DeviceAuthStrategy.key))
@@ -29,8 +38,18 @@ export class PacksController {
   addLocation(
     @Body() createLocationDto: CreateLocationDto,
     @GetUser() user: User,
-  ): Promise<Pack> {
-    return this.packsService.createPack(createLocationDto, user);
+  ): Promise<Location> {
+    const { title, packId } = createLocationDto;
+
+    return this.packsService.addLocation(title, packId, user);
+  }
+
+  @Get('/locations/:packId')
+  getLocationsByPackId(
+    @Param('packId') packId: string,
+    @GetUser() user: User,
+  ): Promise<Location[]> {
+    return this.packsService.getLocationsByPackId(packId, user);
   }
 
   @Get()
@@ -38,4 +57,10 @@ export class PacksController {
     this.logger.verbose(`User "${user.deviceId}" retrieving all packs`);
     return this.packsService.getPacks(user);
   }
+
+  @Get('/:id')
+  getPackById(@GetUser() user: User, @Param('id') id: string): Promise<Pack> {
+    return this.packsService.getPackById(id, user);
+  }
+
 }

@@ -3,6 +3,7 @@ import {
   Entity,
   ManyToMany,
   ManyToOne,
+  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from 'src/auth/user.entity';
@@ -11,10 +12,7 @@ import { Pack } from './pack.entity';
 
 @Entity()
 export class Location {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column()
+  @PrimaryColumn()
   title: string;
 
   @ManyToOne(() => Pack, (pack) => pack.locations)
