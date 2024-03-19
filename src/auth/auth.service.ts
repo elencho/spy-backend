@@ -14,4 +14,8 @@ export class AuthService {
     const user = this.usersRepository.create({ deviceId });
     return this.usersRepository.save(user);
   }
+  async validateUserByDeviceId(deviceId: string): Promise<User> {
+    const user = await this.usersRepository.findOneBy({ deviceId });
+    return user;
+  }
 }
